@@ -24,6 +24,7 @@ namespace CodePiece
         {
             InitializeComponent();
         }
+        public Action refresh;
 
         private void btn_Save_Click(object sender, RoutedEventArgs e)
         {
@@ -35,6 +36,7 @@ namespace CodePiece
             entity.Create();
             DbHelper.Insert(entity);
             MessageBox.Show("保存成功");
+            refresh();
             this.Close();
         }
         string GetRichText(RichTextBox rtb)

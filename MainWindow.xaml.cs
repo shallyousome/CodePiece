@@ -39,6 +39,7 @@ namespace CodePiece
             //DbHelper.Insert(entity);
             //DbHelper.DeleteManay<GroupEntity>(p=>p.Name=="力软");
             var itemForm = new ItemForm();
+            itemForm.refresh = RefreshData;
             itemForm.ShowDialog();  
 
            
@@ -47,25 +48,25 @@ namespace CodePiece
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var li_Group = new List<GroupEntity>();
-            li_Group.Add(new GroupEntity { 
-                  Id=Guid.NewGuid().ToString(),
-                  Lang=DevLanguage.CSharp ,
-                  Name="test1",
-                  Remark="xxxxx"
-            });
-            li_Group.Add(new GroupEntity
-            {
-                Id = Guid.NewGuid().ToString(),
-                Lang = DevLanguage.CSharp,
-                Name = "test2",
-                Remark = "yyyyyyy"
-            });
-            //this.sideBar.ItemsSource = new List<GroupEntity>();
-            var menuItem = new SideMenuItem();
-            menuItem.Header = "xx";
-            this.sideBar.Items.Add(menuItem);
+            RefreshData();
 
+            //var menuItem = new SideMenuItem();
+            //menuItem.Header = "xx";
+
+            //this.sideBar.Items.Add(menuItem);
+
+        }
+        public void RefreshData() {
+            var li_Item = DbHelper.Find<ItemEntity>(p => true).OrderByDescending(p=>p.OperateTime);
+            lv_Code.ItemsSource = li_Item;
+
+        }
+
+        private void btn_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            var data = ((Button)sender).DataContext;
+            var content = (data as ItemEntity)?.Content;
+            Clipboard.SetDataObject(content);
         }
     }
 }
