@@ -1,4 +1,5 @@
 ﻿using CodePiece.Entity;
+using HandyControl.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,24 +19,26 @@ namespace CodePiece
     /// <summary>
     /// ItemForm.xaml 的交互逻辑
     /// </summary>
-    public partial class ItemForm : Window
+    public partial class ItemForm : System.Windows.Window
     {
-        public ItemForm()
+        public Action refresh;
+        public ItemForm(Action refreshHandler)
         {
             InitializeComponent();
-        }
-        public Action refresh;
+            refresh = refreshHandler;
+        }       
 
         private void btn_Save_Click(object sender, RoutedEventArgs e)
         {
             var entity = new ItemEntity
             {
+                Tag=tbx_Tag.Text,
                 Title=tbx_Title.Text,
                 Content= GetRichText(tbx_Content)
             };
             entity.Create();
             DbHelper.Insert(entity);
-            MessageBox.Show("保存成功");
+            Growl.SuccessGlobal("删除成功");
             refresh();
             this.Close();
         }

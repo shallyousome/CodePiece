@@ -6,25 +6,28 @@
         xmlns:local="clr-namespace:CodePiece"
         xmlns:hc="https://handyorg.github.io/handycontrol" x:Class="CodePiece.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="600" Loaded="Window_Loaded">
+        Title="首页" Height="400" Width="750" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="497*"/>
             <ColumnDefinition Width="103*"/>
         </Grid.ColumnDefinitions>
+
         <Button Content="新增" HorizontalAlignment="Center"  Margin="0,21,0,0" VerticalAlignment="Top"  Click="Button_Click" RenderTransformOrigin="-2.396,0.505" Grid.Column="1"
                 Height="48" Width="48" Padding="10" Style="{StaticResource ButtonIcon}" Background="{DynamicResource PrimaryBrush}" Foreground="{DynamicResource TextIconBrush}"
                         hc:IconElement.Geometry="{StaticResource AddGeometry}" hc:BorderElement.CornerRadius="24"
                 />
-
-
-        <ListView x:Name="lv_Code" d:ItemsSource="{d:SampleData ItemCount=5}" HorizontalAlignment="Right" Width="499" Grid.ColumnSpan="2" Margin="0,0,102,0">
+       
+        <ListView x:Name="lv_Code" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="-1,0,0,0">
             <ListView.View>
                 <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Tag}" Width="100">
+                        <GridViewColumnHeader>标签</GridViewColumnHeader>
+                    </GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Title}" Width="100">
                         <GridViewColumnHeader>标题</GridViewColumnHeader>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Content}" Width="300">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Content}" Width="200">
                         <GridViewColumnHeader>内容</GridViewColumnHeader>
                     </GridViewColumn>
                     <GridViewColumn  Width="80">
@@ -35,10 +38,20 @@
 
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
+                    <GridViewColumn  Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Height="30" Width="100" Content="删除" Click="btn_Delete_Click"  Margin="3" Background="red" Foreground="{DynamicResource TextIconBrush}"/>
+                            </DataTemplate>
+
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
 
             </ListView.View>
         </ListView>
-
+    
     </Grid>
+
+
 </Window>

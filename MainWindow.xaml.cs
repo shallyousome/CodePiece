@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CodePiece.Enum;
 using HandyControl.Controls;
+using System.Reflection;
 
 namespace CodePiece
 {
@@ -38,8 +39,7 @@ namespace CodePiece
             //entity.Create();
             //DbHelper.Insert(entity);
             //DbHelper.DeleteManay<GroupEntity>(p=>p.Name=="力软");
-            var itemForm = new ItemForm();
-            itemForm.refresh = RefreshData;
+            var itemForm = new ItemForm(RefreshData);
             itemForm.ShowDialog();  
 
            
@@ -67,6 +67,18 @@ namespace CodePiece
             var data = ((Button)sender).DataContext;
             var content = (data as ItemEntity)?.Content;
             Clipboard.SetDataObject(content);
+            Growl.SuccessGlobal("复制成功");
+            
         }
+        private void btn_Delete_Click(object sender, RoutedEventArgs e)
+        {
+            var data = ((Button)sender).DataContext;
+            var item = (ItemEntity)data;
+            DbHelper.Delete(item);
+            RefreshData();            
+            Growl.SuccessGlobal("删除成功");
+
+        }
+
     }
 }
