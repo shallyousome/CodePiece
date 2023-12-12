@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CodePiece"
         xmlns:hc="https://handyorg.github.io/handycontrol" x:Class="CodePiece.MainWindow"
         mc:Ignorable="d"
-        Title="首页" Height="400" Width="750" Loaded="Window_Loaded">
+        Title="首页" Height="500" Width="750" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="497*"/>
@@ -17,8 +17,8 @@
                 Height="48" Width="48" Padding="10" Style="{StaticResource ButtonIcon}" Background="{DynamicResource PrimaryBrush}" Foreground="{DynamicResource TextIconBrush}"
                         hc:IconElement.Geometry="{StaticResource AddGeometry}" hc:BorderElement.CornerRadius="24"
                 />
-       
-        <ListView x:Name="lv_Code" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="-1,0,0,0">
+
+        <ListView x:Name="lv_Code" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,84,0,0" HorizontalAlignment="Center" Width="622">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Tag}" Width="100">
@@ -50,7 +50,8 @@
 
             </ListView.View>
         </ListView>
-    
+        <hc:TextBox x:Name="tbx_Keyword" HorizontalAlignment="Left" Margin="59,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="367" Height="48" FontSize="18" BorderThickness="5,5,5,5" TextChanged="tbx_Keyword_TextChanged"/>
+
     </Grid>
 
 

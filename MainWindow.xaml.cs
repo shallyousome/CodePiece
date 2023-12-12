@@ -16,6 +16,9 @@ using System.Windows.Shapes;
 using CodePiece.Enum;
 using HandyControl.Controls;
 using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Linq.Expressions;
+using CodePiece.Extensions;
 
 namespace CodePiece
 {
@@ -57,6 +60,7 @@ namespace CodePiece
 
         }
         public void RefreshData() {
+            tbx_Keyword.Text = "";
             var li_Item = DbHelper.Find<ItemEntity>(p => true).OrderByDescending(p=>p.OperateTime);
             lv_Code.ItemsSource = li_Item;
 
@@ -80,5 +84,24 @@ namespace CodePiece
 
         }
 
+        private void tbx_Keyword_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var keyword = tbx_Keyword.Text;
+            var li_Tag = new List<string>();
+            MatchCollection matchResult = Regex.Matches(keyword, @"#.*? ");             
+            foreach (Match m in matchResult)
+            {
+                li_Tag.Add(m.Value.Trim()[1..]);
+                keyword = keyword.Replace(m.Value,"");
+            }
+            Expression<Func<ItemEntity, bool>> express = p=>p.Title.Contains(keyword)||p.Content.Contains(keyword);
+            li_Tag.ForEach(tag => {
+                Expression<Func<ItemEntity, bool>> expressTag = p => p.Tag.Contains(tag);
+                express = express.And(expressTag);
+            });
+            var li_Item = DbHelper.Find(express).OrderByDescending(p => p.OperateTime);
+            lv_Code.ItemsSource = li_Item;
+
+        }
     }
 }
