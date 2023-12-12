@@ -15,7 +15,7 @@
 
         <hc:TextBox x:Name="tbx_Title" HorizontalAlignment="Left" Margin="14,115,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="308" Height="42" Grid.Column="1"/>
         <Label Content="标题" Margin="22,121,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.562,-0.281" HorizontalAlignment="Left" FontFamily="Arial Black"/>
-        <RichTextBox x:Name="tbx_Content" Margin="0,184,197,88" Grid.Column="1">
+        <RichTextBox x:Name="tbx_Content" Margin="14,184,195,88" Grid.Column="1">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>

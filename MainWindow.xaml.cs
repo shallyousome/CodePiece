@@ -34,19 +34,8 @@ namespace CodePiece
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //var entity = new GroupEntity { 
-            //     Lang=DevLanguage.CSharp ,
-            //     Name="力软",
-            //     Remark="力软框架开发环境"
-            //};
-            //entity.Create();
-            //DbHelper.Insert(entity);
-            //DbHelper.DeleteManay<GroupEntity>(p=>p.Name=="力软");
             var itemForm = new ItemForm(RefreshData);
-            itemForm.ShowDialog();  
-
-           
-
+            itemForm.ShowDialog(); 
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -62,7 +51,7 @@ namespace CodePiece
         public void RefreshData() {
             tbx_Keyword.Text = "";
             var li_Item = DbHelper.Find<ItemEntity>(p => true).OrderByDescending(p=>p.OperateTime);
-            lv_Code.ItemsSource = li_Item;
+            SetGridData(li_Item);
 
         }
 
@@ -83,6 +72,13 @@ namespace CodePiece
             Growl.SuccessGlobal("删除成功");
 
         }
+        private void btn_Modify_Click(object sender, RoutedEventArgs e)
+        {
+            var data = ((Button)sender).DataContext;
+            var item = (ItemEntity)data;
+            var itemForm = new ItemForm(RefreshData, item.Id);
+            itemForm.ShowDialog();
+        }
 
         private void tbx_Keyword_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -100,8 +96,21 @@ namespace CodePiece
                 express = express.And(expressTag);
             });
             var li_Item = DbHelper.Find(express).OrderByDescending(p => p.OperateTime);
+            SetGridData(li_Item);
+
+        }
+        void SetGridData(IEnumerable<ItemEntity> li_Item) {
+            foreach (var item in li_Item)
+            {
+                if (item.Content.Contains('\n'))
+                { 
+                    item.Content=item.Content.Split('\n')[0];
+                }
+            }
             lv_Code.ItemsSource = li_Item;
 
         }
+
+   
     }
 }
